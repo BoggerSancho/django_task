@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+    <meta charset="UTF-8">
+    <title>Main Page</title>
+</head>
+<body>
+
+{% if user.is_authenticated %}
+    <div class = "two-buttons show">
+        <label class="buttonH" id="Hello"> Hi {{ user.get_username }} your id is {{ user.id }}</label>
+    <a href="/auth/logout" class="button"> logout</a>
+    </div>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    <label for="url">Add new URL</label>
+    <input type="text" name="URL" id="url">
+    <input type="submit" value="Add">
+</form>
+
+<table>
+    <tr>
+        <th>URL</th>
+        <th>Status</th>
+    </tr>
+    {% for url in user_url %}
+    <tr>
+        <td>{{ url.0.url }}</td>
+        {% if url.1 == 200 %}
+        <td style="background-color:MediumSeaGreen;">{{ url.1 }}</td>
+        {% else %}
+        <td style="background-color:Tomato;">{{ url.1 }}</td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+
+</table>
+</body>
+</html>
